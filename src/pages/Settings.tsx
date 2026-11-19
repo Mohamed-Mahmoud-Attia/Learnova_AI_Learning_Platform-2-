@@ -5,7 +5,7 @@ import { signOut } from '../lib/auth'
 import { useApi } from '../lib/hooks'
 import { Load, Toggle, toast } from '../components/ui'
 
-const TABS = ['Profile', 'Learning Preferences', 'Appearance', 'Notifications', 'Account']
+const TABS = ['Profile', 'Appearance', 'Notifications', 'Account']
 export function Settings() {
   const q = useApi(api.profile)
   return <><div className="page-title"><span className="eyebrow">YOUR EXPERIENCE</span><h1>Settings & Profile</h1><p>Manage your profile and personalize how Learnova supports you.</p></div><Load q={q}>{p => <SettingsView initial={p}/>}</Load></>
@@ -18,7 +18,7 @@ function SettingsView({ initial }: { initial: Profile }) {
   const show = (t: string) => tab === 'Profile' || tab === t
   const initials = f.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   const save = async () => { setBusy(true); try { const r = await api.saveProfile(f); setSaved(r); setF(r); toast('Changes saved') } catch { toast('Couldn’t save your changes') } finally { setBusy(false) } }
-  const editable = ['Profile', 'Learning Preferences', 'Notifications'].includes(tab)
+  const editable = ['Profile', 'Notifications'].includes(tab)
   return <div className="settings-layout">
     <aside className="settings-menu" role="tablist">{TABS.map(t => <button key={t} role="tab" aria-selected={tab === t} className={tab === t ? 'active' : ''} onClick={() => setTab(t)}>{t}</button>)}</aside>
     <section className="card settings-form">
